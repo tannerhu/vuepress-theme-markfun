@@ -3,9 +3,11 @@
     <transition name="fade">
       <div
         title="返回顶部"
-        class="button blur go-to-top iconfont icon-fanhuidingbu"
+        :class="`button blur go-to-top iconfont icon-fanhuidingbu ${topButtonClass}`"
         v-show="showToTop"
         @click="scrollToTop"
+        @mouseenter="topGoFlag = true"
+        @mouseleave="topGoFlag = false"
       />
     </transition>
     <div
@@ -16,30 +18,11 @@
     />
     <div
       title="主题模式"
-      class="button blur theme-mode-but iconfont icon-zhuti"
-      @mouseenter="showModeBox = true"
-      @mouseleave="showModeBox = false"
-      @click="showModeBox = true"
+      :class="`button blur theme-mode-but iconfont icon-zhuti ${themeButtonClass}`"
+      @mouseenter="bounceInFlag = true"
+      @mouseleave="bounceInFlag = false"
+      @click="toggleMode()"
     >
-      <transition name="mode">
-        <ul
-          class="select-box"
-          ref="modeBox"
-          v-show="showModeBox"
-          @click.stop
-          @touchstart.stop
-        >
-          <li
-            v-for="item in modeList"
-            :key="item.KEY"
-            class="iconfont"
-            :class="[item.icon, { active: item.KEY === currentMode }]"
-            @click="toggleMode(item.KEY)"
-          >
-            {{ item.name }}
-          </li>
-        </ul>
-      </transition>
     </div>
   </div>
 </template>
@@ -57,24 +40,8 @@ export default {
       showCommentBut: false,
       commentTop: null,
       currentMode: null,
-      showModeBox: false,
-      modeList: [
-        {
-          name: '跟随系统',
-          icon: 'icon-zidong',
-          KEY: 'auto'
-        },
-        {
-          name: '浅色模式',
-          icon: 'icon-rijianmoshi',
-          KEY: 'light'
-        },
-        {
-          name: '深色模式',
-          icon: 'icon-yejianmoshi',
-          KEY: 'dark'
-        }
-      ],
+      bounceInFlag: false,
+      topGoFlag: true,
       _scrollTimer: null,
       _textareaEl: null,
       _recordScrollTop: null,
@@ -99,11 +66,11 @@ export default {
     if (document.documentElement.clientWidth < MOBILE_DESKTOP_BREAKPOINT) {
       const modeBox = this.$refs.modeBox
       modeBox.onclick = () => {
-        this.showModeBox = false
+        this.bounceInFlag = false
       }
       window.addEventListener('scroll', debounce(() => {
-        if (this.showModeBox) {
-          this.showModeBox = false
+        if (this.bounceInFlag) {
+          this.bounceInFlag = false
         }
       }, 100))
     }
@@ -127,12 +94,45 @@ export default {
   computed: {
     showToTop () {
       return this.scrollTop > this.threshold
+    },
+    themeButtonClass (){
+      if (this.bounceInFlag){
+        return 'deform'
+      }else {
+        return ''
+      }
+    },
+    topButtonClass(){
+      if (this.topGoFlag){
+        return 'deform-top'
+      }else {
+        return ''
+      }
     }
   },
   methods: {
-    toggleMode (key) {
-      this.currentMode = key
-      this.$emit('toggle-theme-mode', key)
+    toggleMode () {
+      this.bounceInFlag = true
+      console.log(this.currentMode);
+      if (this.currentMode === 'auto') { // 系统处于自动模式
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches){
+          this.setLightMode();
+        }else {
+          this.setDarkMode();
+        }
+      } else if (this.currentMode === 'light'){
+        this.setDarkMode();
+      }else if(this.currentMode === 'dark'){
+        this.setLightMode();
+      }
+    },
+    setLightMode(){
+       this.currentMode = 'light'
+       this.$emit('toggle-theme-mode', 'light')
+    },
+    setDarkMode(){
+      this.currentMode = 'dark'
+      this.$emit('toggle-theme-mode', 'dark')
     },
     getScrollTop () {
       return window.pageYOffset
@@ -227,33 +227,66 @@ export default {
         box-shadow 0 0 15px $accentColor
         &:before
           color #fff
-    .select-box
-      margin 0
-      padding 0.8rem 0
-      position absolute
-      bottom 0rem
-      right 1.5rem
-      background var(--mainBg)
-      border 1px solid var(--borderColor)
-      width 120px
-      border-radius 6px
-      box-shadow 0 0 15px rgba(255, 255, 255, 0.2)
-      li
-        list-style none
-        line-height 2rem
-        font-size 0.95rem
-        &:hover
-          color $accentColor
-        &.active
-          background-color rgba(150, 150, 150, 0.2)
-          color $accentColor
-.mode-enter-active, .mode-leave-active
-  transition all 0.3s
-.mode-enter, .mode-leave-to
-  opacity 0
-  transform scale(0.8)
 .fade-enter-active, .fade-leave-active
   transition opacity 0.2s
 .fade-enter, .fade-leave-to
   opacity 0
+
+.deform-top
+  animation: top-go 0.4s  ease-in-out 0.2s 1 alternate forwards;
+@keyframes top-go {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  25% {
+    transform: scale3d(1.1, 0.8, 1);
+  }
+  30% {
+    transform: translate3d(0px,-25px,0px);
+  }
+  45% {
+    transform: scale3d(0.7, 2, 1);
+  }
+  55% {
+    transform: scale3d(1.1, 0.8, 1);
+  }
+  85% {
+    transform: scale3d(0.9, 1.1, 1);
+  }
+  90% {
+    transform: translate3d(0,0,0);
+  }
+  100% {
+    transform:scale3d(1, 1, 1);
+  }
+
+}
+
+.deform
+  animation: bounce-in 0.4s  ease-in-out 0.1s 1 alternate forwards;
+
+@keyframes bounce-in {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  10% {
+    transform: scale3d(0.8, 1.1, 1);
+  }
+  25% {
+    transform: scale3d(1.1, 0.8, 1);
+  }
+  45% {
+    transform: scale3d(0.7, 1.3, 1);
+  }
+  55% {
+    transform: scale3d(1.3, 0.8, 1);
+  }
+  85% {
+    transform: scale3d(0.9, 1.1, 1);
+  }
+  100% {
+    transform:scale3d(1, 1, 1);
+  }
+}
+
 </style>

@@ -14,7 +14,7 @@ cd vuepress-theme-markfun && npm i
 # 进入主题目录安装依赖
 cd theme-markfun && npm i
 # 回到项目主目录 启动项目
-cd../ && npm run dev
+cd ../ && npm run dev
 ```
 
 ## 鸣谢

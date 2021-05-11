@@ -14,7 +14,7 @@
       />
       <span
         ref="siteName"
-        class="site-name"
+        class="site-name blog-title-font"
         v-if="$siteTitle"
         :class="{ 'can-hide': $site.themeConfig.logo }"
       >{{ $siteTitle }}</span>

@@ -15,10 +15,10 @@
             :src="$withBase(homeData.heroImage)"
             :alt="homeData.heroAlt"
           />
-          <h1 v-if="homeData.heroText" id="main-title">
+          <h1 v-if="homeData.heroText" id="main-title" class="blog-title-font">
             {{ homeData.heroText }}
           </h1>
-          <p v-if="homeData.tagline" class="description">
+          <p v-if="homeData.tagline" class="description" >
             {{ homeData.tagline }}
           </p>
           <p class="action" v-if="homeData.actionText && homeData.actionLink">
