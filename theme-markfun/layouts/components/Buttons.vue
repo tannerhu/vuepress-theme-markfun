@@ -113,7 +113,6 @@ export default {
   methods: {
     toggleMode () {
       this.bounceInFlag = true
-      console.log(this.currentMode);
       if (this.currentMode === 'auto') { // 系统处于自动模式
         if (window.matchMedia('(prefers-color-scheme: dark)').matches){
           this.setLightMode();
