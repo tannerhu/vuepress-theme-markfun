@@ -160,8 +160,6 @@ export default {
       }else {
         this.sortPosts = posts.slice((currentPage - 1) * perPage, currentPage * perPage)
       }
-      console.log(this.sortPosts)
-
     },
     // getElementToPageTop(el) {
     //   if(el && el.parentElement) {

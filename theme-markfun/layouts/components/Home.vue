@@ -235,7 +235,6 @@ export default {
     },
     handleLoadPost(i){
       this.loadPage = i;
-      console.log(this.loadPage)
     },
     getScrollTop () {
       return window.pageYOffset

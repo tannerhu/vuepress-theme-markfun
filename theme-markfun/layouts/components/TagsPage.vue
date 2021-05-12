@@ -74,7 +74,6 @@ export default {
     },
     handleLoadPost(i){
       this.loadPage = i;
-      console.log(this.loadPage)
     },
   },
   watch: {
