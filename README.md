@@ -2,7 +2,7 @@
 
 vuepress-theme-markfun for vuepress
 
-一个基于VuePress的博客主题。
+一个基于VuePress的博客主题简单 精致 有趣
 
 ## 🌱vuepress-theme-markfun1.x master 分支 [点击切换分支](https://github.com/tannerhu/vuepress-theme-markfun/tree/master)
 

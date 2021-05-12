@@ -12,12 +12,15 @@
           :currentPage="currentPage"
           :perPage="perPage"
           :tag="tag"
+          :loadPage="loadPage"
         />
         <Pagination
           :total="total"
           :perPage="perPage"
           :currentPage="currentPage"
+          :loadPage="loadPage"
           @getCurrentPage="handlePagination"
+          @getLoadPage="handleLoadPost"
           v-show="Math.ceil(total / perPage) > 1"
         />
       </template>
@@ -47,7 +50,8 @@ export default {
       tag: '',
       total: 0, // 总长
       perPage: 10, // 每页长
-      currentPage: 1// 当前页
+      currentPage: 1,// 当前页
+      loadPage: 1// 当前加载内容的页码
     }
   },
   components: { MainLayout, PostList, Pagination, TagsBar , ModuleTransition},
@@ -67,7 +71,11 @@ export default {
   methods: {
     handlePagination (i) { // 分页
       this.currentPage = i
-    }
+    },
+    handleLoadPost(i){
+      this.loadPage = i;
+      console.log(this.loadPage)
+    },
   },
   watch: {
     '$route.query.tag' (tag) {

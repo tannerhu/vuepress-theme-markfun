@@ -26,6 +26,7 @@
               :href="item.author.href"
             >{{ item.author.name ? item.author.name : item.author }}</a>
             <span
+
               title="作者"
               class="iconfont icon-touxiang"
               v-else-if="item.author"
@@ -96,6 +97,10 @@ export default {
     perPage: {
       type: Number,
       default: 10
+    },
+    loadPage: {
+      type: Number,
+      default: 1
     }
   },
   data () {
@@ -130,12 +135,16 @@ export default {
     },
     tag () {
       this.setPosts()
+    },
+    loadPage (){
+      this.setPosts()
     }
   },
   methods: {
     setPosts () {
       const currentPage = this.currentPage
       const perPage = this.perPage
+      const loadPage = this.loadPage
 
       let posts = []
       if (this.category) {
@@ -146,7 +155,13 @@ export default {
         posts = this.$sortPosts
       }
 
-      this.sortPosts = posts.slice((currentPage - 1) * perPage, currentPage * perPage)
+      if (loadPage>1){
+        this.sortPosts = this.sortPosts.concat(posts.slice((loadPage - 1) * perPage, loadPage * perPage))
+      }else {
+        this.sortPosts = posts.slice((currentPage - 1) * perPage, currentPage * perPage)
+      }
+      console.log(this.sortPosts)
+
     },
     // getElementToPageTop(el) {
     //   if(el && el.parentElement) {

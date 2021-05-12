@@ -1,89 +1,105 @@
 <template>
   <div class="pagination">
-    <span
-      class="card-box prev iconfont icon-jiantou-zuo"
-      :class="{disabled: currentPage === 1}"
-      @click="goPrex()"
+    <div
+       v-if="$themeConfig.postListMode === 'more'"
+       class="more blur iconfont "
+       :class="[loadPage >= pages?`icon-dibu disabled ${noMoreButtonClass}`:`icon-gengduo ${moreButtonClass}`]"
+       @mouseenter="loadMoreFlag = true"
+       @mouseleave="loadMoreFlag = false"
+       @touchstart="loadMoreFlag = false"
+       @touchend="loadMoreFlag = true"
+       @click="loadMore()"
     >
+    </div>
+    <div
+        v-if="$themeConfig.postListMode === 'page'"
+        class="pagination"
+    >
+      <span
+          class="card-box prev iconfont icon-jiantou-zuo"
+          :class="{disabled: currentPage === 1}"
+          @click="goPrex()"
+      >
       <p>上一页</p>
     </span>
 
-    <!-- 分页在5页及以下时 -->
-    <div
-      class="pagination-list"
-      v-if="pages <= 5"
-    >
+      <!-- 分页在5页及以下时 -->
+      <div
+          class="pagination-list"
+          v-if="pages <= 5"
+      >
       <span
-        class="card-box"
-        v-for="item in pages"
-        :key="item"
-        :class="{active: currentPage === item}"
-        @click="goIndex(item)"
+          class="card-box"
+          v-for="item in pages"
+          :key="item"
+          :class="{active: currentPage === item}"
+          @click="goIndex(item)"
       >{{item}}</span>
-    </div>
-    <!-- 分页在5页以上 -->
-    <div
-      class="pagination-list"
-      v-else
-    >
-      <!-- 一号位 -->
-      <span
-        class="card-box"
-        :class="{active: currentPage === 1}"
-        @click="goIndex(1)"
-      >1</span>
+      </div>
+      <!-- 分页在5页以上 -->
+      <div
+          class="pagination-list"
+          v-else
+      >
+        <!-- 一号位 -->
+        <span
+            class="card-box"
+            :class="{active: currentPage === 1}"
+            @click="goIndex(1)"
+        >1</span>
 
-      <!-- 二号位 -->
-      <span
-        class="ellipsis ell-two"
-        v-show="currentPage > 3"
-        @click="goIndex(currentPage - 2)"
-        title="上两页"
-      />
-      <!--这里没有使用v-if的原因是因为部署版本在当前页大于3时刷新页面出现了一些bug-->
-      <span
-        class="card-box"
-        v-show="currentPage <= 3"
-        :class="{active: currentPage === 2}"
-        @click="goIndex(2)"
-      >2</span>
+        <!-- 二号位 -->
+        <span
+            class="ellipsis ell-two"
+            v-show="currentPage > 3"
+            @click="goIndex(currentPage - 2)"
+            title="上两页"
+        />
+        <!--这里没有使用v-if的原因是因为部署版本在当前页大于3时刷新页面出现了一些bug-->
+        <span
+            class="card-box"
+            v-show="currentPage <= 3"
+            :class="{active: currentPage === 2}"
+            @click="goIndex(2)"
+        >2</span>
 
-      <!-- 三号位 -->
-      <span
-        class="card-box"
-        :class="{active: currentPage >= 3 && currentPage <= (pages - 2)}"
-        @click="goIndex(threeNum())"
-      >{{ threeNum() }}</span>
+        <!-- 三号位 -->
+        <span
+            class="card-box"
+            :class="{active: currentPage >= 3 && currentPage <= (pages - 2)}"
+            @click="goIndex(threeNum())"
+        >{{ threeNum() }}</span>
 
-      <!-- 四号位 -->
-      <span
-        class="ellipsis ell-four"
-        v-show="currentPage < (pages - 2)"
-        @click="goIndex(currentPage + 2)"
-        title="下两页"
-      />
-      <span
-        class="card-box"
-        v-show="currentPage >= (pages - 2)"
-        :class="{active: currentPage === pages-1}"
-        @click="goIndex(pages-1)"
-      >{{ pages-1 }}</span>
+        <!-- 四号位 -->
+        <span
+            class="ellipsis ell-four"
+            v-show="currentPage < (pages - 2)"
+            @click="goIndex(currentPage + 2)"
+            title="下两页"
+        />
+        <span
+            class="card-box"
+            v-show="currentPage >= (pages - 2)"
+            :class="{active: currentPage === pages-1}"
+            @click="goIndex(pages-1)"
+        >{{ pages-1 }}</span>
 
-      <!-- 五号位 -->
-      <span
-        class="card-box"
-        :class="{active: currentPage === pages}"
-        @click="goIndex(pages)"
-      >{{pages}}</span>
-    </div>
+        <!-- 五号位 -->
+        <span
+            class="card-box"
+            :class="{active: currentPage === pages}"
+            @click="goIndex(pages)"
+        >{{pages}}</span>
+      </div>
 
-    <span
-      class="card-box next iconfont icon-jiantou-you"
-      :class="{disabled: currentPage === pages}"
-      @click="goNext()"
-    >
+      <span
+          class="card-box next iconfont icon-jiantou-you"
+          :class="{disabled: currentPage === pages}"
+          @click="goNext()"
+      >
       <p>下一页</p>
     </span>
+    </div>
   </div>
 </template>
 
@@ -101,14 +117,43 @@ export default {
     currentPage: { // 当前页
       type: Number,
       default: 1
+    },
+    loadPage: { // 当前加载内容的页码
+      type: Number,
+      default: 1
+    }
+  },
+  data () {
+    return {
+      loadMoreFlag: false,
     }
   },
   computed: {
     pages () { // 总页数
       return Math.ceil(this.total / this.perPage)
+    },
+    moreButtonClass (){
+      if (this.loadMoreFlag){
+        return 'reciprocating'
+      }else {
+        return ''
+      }
+    },
+    noMoreButtonClass(){
+      if (this.loadMoreFlag){
+        return 'shaking'
+      }else {
+        return ''
+      }
     }
   },
   methods: {
+    loadMore(){
+      if(this.loadPage < this.pages){
+        let nextLoadPage = this.loadPage + 1
+        this.$emit('getLoadPage', nextLoadPage)
+      }
+    },
     threeNum () { // 三号位页码计算
       let num = 3
       const currentPage = this.currentPage
@@ -129,6 +174,7 @@ export default {
       }
     },
     goNext () {
+
       let currentPage = this.currentPage
       if (currentPage < this.pages) {
         this.handleEmit(++currentPage)
@@ -176,8 +222,6 @@ export default {
     top 0
     padding 1rem 1.2rem
     font-size 0.95rem
-    &.disabled
-      color rgba(125, 125, 125, 0.5)
     &.prev
       left 0
       border-top-right-radius 32px
@@ -202,6 +246,31 @@ export default {
       &.active
         background $accentColor
         color var(--mainBg)
+  .more
+    width 2.2rem
+    height 2.2rem
+    line-height 2.2rem
+    border-radius 50%
+    box-shadow 0 2px 6px rgba(0, 0, 0, 0.15)
+    margin-top 0.9rem
+    text-align center
+    cursor pointer
+    transition all 0.5s
+    background var(--blurBg)
+    display inline-block
+    &.hover
+      background $accentColor
+      box-shadow 0 0 15px $accentColor
+      &:before
+        color #fff
+    @media (any-hover hover)
+      &:hover
+        background $accentColor
+        box-shadow 0 0 15px $accentColor
+        &:before
+          color #fff
+  .disabled
+    color rgba(125, 125, 125, 0.5)
 @media (max-width 800px)
   .pagination
     > span
@@ -230,4 +299,33 @@ export default {
         line-height 2rem
         margin 0.1rem
         margin-top 0.3rem
+
+.reciprocating
+  animation: load-more 0.4s ease-in-out 0.1s 1 alternate forwards;
+@keyframes load-more {
+  0% {
+    transform:scale3d(0.5,0.5,5);
+  }
+  30% {
+    transform: translate3d(0px,15px,0px);
+  }
+}
+
+.shaking
+  animation: no-more 0.4s ease-in-out 0.1s 1 alternate forwards;
+@keyframes no-more {
+  0% {
+    transform: translate3d(-30px,5px,0px);
+  }
+  15% {
+    transform: translate3d(-7px,-5px,0px);
+  }
+  30% {
+    transform: translate3d(30px,0px,0px);
+  }
+  50% {
+    transform: translate3d(-30px,0px,0px);
+  }
+}
+
 </style>

@@ -46,12 +46,14 @@
         <template
           v-else-if="!homeData.postList || homeData.postList === 'detailed'"
         >
-          <PostList :currentPage="currentPage" :perPage="perPage" />
+          <PostList :currentPage="currentPage" :perPage="perPage" :loadPage="loadPage" />
           <Pagination
             :total="total"
             :perPage="perPage"
             :currentPage="currentPage"
+            :loadPage="loadPage"
             @getCurrentPage="handlePagination"
+            @getLoadPage="handleLoadPost"
             v-show="Math.ceil(total / perPage) > 1"
           />
         </template>
@@ -116,7 +118,8 @@ export default {
 
       total: 0, // 总长
       perPage: 10, // 每页长
-      currentPage: 1// 当前页
+      currentPage: 1,// 当前页
+      loadPage: 1// 当前加载内容的页码
     }
   },
   computed: {
@@ -193,7 +196,7 @@ export default {
   methods: {
     init () {
       clearTimeout(this.playTimer)
-      this.slide = new BScroll(this.$refs.slide, {
+      this.slide = new BScroll(this.$refs.slideslide, {
         scrollX: true, // x轴滚动
         scrollY: false, // y轴滚动
         slide: {
@@ -229,6 +232,10 @@ export default {
     },
     handlePagination (i) { // 分页
       this.currentPage = i
+    },
+    handleLoadPost(i){
+      this.loadPage = i;
+      console.log(this.loadPage)
     },
     getScrollTop () {
       return window.pageYOffset

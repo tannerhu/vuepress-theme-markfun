@@ -3,13 +3,29 @@
     <transition name="fade">
       <div
         title="返回顶部"
-        :class="`button blur go-to-top iconfont icon-fanhuidingbu ${topButtonClass}`"
+        :class="`button blur iconfont icon-fanhuidingbu ${topButtonClass}`"
         v-show="showToTop"
         @click="scrollToTop"
         @mouseenter="topGoFlag = true"
         @mouseleave="topGoFlag = false"
+        @touchstart="topGoFlag = false"
+        @touchend="topGoFlag = true"
       />
     </transition>
+
+    <transition name="fade">
+      <div
+          title="返回原处"
+          :class="`button blur back iconfont icon-fanhui ${backButtonClass}`"
+          v-show="!showToTop&&scrollBackLocation"
+          @click="scrollBack"
+          @mouseenter="backFlag = true"
+          @mouseleave="backFlag = false"
+          @touchstart="backFlag = false"
+          @touchend="backFlag = true"
+      />
+    </transition>
+
     <div
       title="去评论"
       class="button blur go-to-comment iconfont icon-pinglun"
@@ -21,6 +37,8 @@
       :class="`button blur theme-mode-but iconfont icon-zhuti ${themeButtonClass}`"
       @mouseenter="bounceInFlag = true"
       @mouseleave="bounceInFlag = false"
+      @touchstart="bounceInFlag = false"
+      @touchend="bounceInFlag = true"
       @click="toggleMode()"
     >
     </div>
@@ -42,6 +60,8 @@ export default {
       currentMode: null,
       bounceInFlag: false,
       topGoFlag: true,
+      backFlag: true,
+      scrollBackLocation: null,
       _scrollTimer: null,
       _textareaEl: null,
       _recordScrollTop: null,
@@ -108,30 +128,28 @@ export default {
       }else {
         return ''
       }
+    },
+    backButtonClass(){
+      if (this.backFlag){
+        return 'rotating'
+      }else {
+        return ''
+      }
     }
   },
   methods: {
     toggleMode () {
       this.bounceInFlag = true
-      if (this.currentMode === 'auto') { // 系统处于自动模式
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches){
-          this.setLightMode();
-        }else {
-          this.setDarkMode();
-        }
-      } else if (this.currentMode === 'light'){
-        this.setDarkMode();
-      }else if(this.currentMode === 'dark'){
-        this.setLightMode();
+      if (this.currentMode === 'auto'&&window.matchMedia('(prefers-color-scheme: dark)').matches
+          ||this.currentMode === 'dark') {
+        this.setThemeMode('light')
+      } else {
+        this.setThemeMode('dark')
       }
     },
-    setLightMode(){
-       this.currentMode = 'light'
-       this.$emit('toggle-theme-mode', 'light')
-    },
-    setDarkMode(){
-      this.currentMode = 'dark'
-      this.$emit('toggle-theme-mode', 'dark')
+    setThemeMode(key){
+      this.currentMode = key
+      this.$emit('toggle-theme-mode', key)
     },
     getScrollTop () {
       return window.pageYOffset
@@ -140,10 +158,18 @@ export default {
     },
 
     scrollToTop () {
+      this.scrollBackLocation = document.documentElement.scrollTop || document.body.scrollTop
+
       window.scrollTo({ top: 0, behavior: 'smooth' })
       this.scrollTop = 0
     },
+    scrollBack() {
+      if (this.scrollBackLocation>0){
+        window.scrollTo({ top: this.scrollBackLocation, behavior: 'smooth' })
+        this.scrollBackLocation = null
+      }
 
+    },
     getCommentTop () {
       setTimeout(() => {
         let commentEl = document.querySelector(this.COMMENT_SELECTOR_1) || document.querySelector(this.COMMENT_SELECTOR_2) || document.querySelector(this.COMMENT_SELECTOR_3)
@@ -186,6 +212,7 @@ export default {
     '$route.path' () {
       this.showCommentBut = false
       this.getCommentTop()
+      this.scrollBackLocation = null
     }
   }
 }
@@ -226,14 +253,21 @@ export default {
         box-shadow 0 0 15px $accentColor
         &:before
           color #fff
+  .back
+    right 5.2rem
+    position fixed
+    @media (max-width $MQNarrow)
+      right 4.2rem
+
 .fade-enter-active, .fade-leave-active
   transition opacity 0.2s
 .fade-enter, .fade-leave-to
   opacity 0
 
 .deform-top
-  animation: top-go 0.4s  ease-in-out 0.2s 1 alternate forwards;
-@keyframes top-go {
+  animation top-go 0.4s  ease-in-out 0.2s 1 alternate forwards
+
+@keyframes top-go
   0% {
     transform: scale3d(1, 1, 1);
   }
@@ -241,7 +275,7 @@ export default {
     transform: scale3d(1.1, 0.8, 1);
   }
   30% {
-    transform: translate3d(0px,-25px,0px);
+    transform: translate3d(0px,-15px,0px);
   }
   45% {
     transform: scale3d(0.7, 2, 1);
@@ -259,12 +293,10 @@ export default {
     transform:scale3d(1, 1, 1);
   }
 
-}
-
 .deform
-  animation: bounce-in 0.4s  ease-in-out 0.1s 1 alternate forwards;
+  animation bounce-in 0.4s  ease-in-out 0.1s 1 alternate forwards
 
-@keyframes bounce-in {
+@keyframes bounce-in
   0% {
     transform: scale3d(1, 1, 1);
   }
@@ -286,6 +318,16 @@ export default {
   100% {
     transform:scale3d(1, 1, 1);
   }
-}
+
+.rotating
+  animation go-back 0.4s  ease-in-out 0.1s 1 alternate forwards
+
+@keyframes go-back
+  0% {
+    transform: scale3d(1.5, 1.5, 1.5);
+  }
+  10% {
+    transform: rotate(720deg)
+  }
 
 </style>
