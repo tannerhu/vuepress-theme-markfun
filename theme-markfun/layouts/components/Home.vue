@@ -258,6 +258,7 @@ export default {
     overflow hidden
     background-position center center
     background-repeat no-repeat
+    background-color #282e34
     -webkit-background-size cover
     -moz-background-size cover
     -o-background-size cover

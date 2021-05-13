@@ -1,10 +1,5 @@
 // 插件配置
 module.exports = [
-  // 本地插件
-  // [require('./plugins/love-me'), { // 鼠标点击爱心特效
-  //   color: '#11a8cd', // 爱心颜色，默认随机色
-  //   excludeClassName: 'theme-markfun-content' // 要排除元素的class, 默认空''
-  // }],
 
   'vuepress-plugin-baidu-autopush', // 百度自动推送
 
@@ -33,7 +28,7 @@ module.exports = [
         },
         {
           title: '通过百度搜索本站的',
-          frontUrl: 'https://www.baidu.com/s?wd=site%3Atannerhu.com%20',
+          frontUrl: 'https://www.baidu.com/s?wd=site%3Ahaxbk.com%20',
         },
       ],
     },
@@ -64,20 +59,11 @@ module.exports = [
     },
   ],
   // [
-  //   'vuepress-plugin-zooming', // 放大图片
+  //   'vuepress-plugin-baidu-tongji', // 百度统计
   //   {
-  //     selector: '.theme-markfun-content img:not(.no-zoom)', // 排除class是no-zoom的图片
-  //     options: {
-  //       bgColor: 'rgba(0,0,0,0.6)',
-  //     },
+  //     hm: '',
   //   },
   // ],
-  [
-    'vuepress-plugin-baidu-tongji', // 百度统计
-    {
-      hm: '',
-    },
-  ],
   // [
   //   'vuepress-plugin-comment', // 评论
   //   {
