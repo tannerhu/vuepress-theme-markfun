@@ -147,15 +147,19 @@ export default {
   },
   components: { NavLink, MainLayout, PostList, UpdateArticle, CategoriesBar, TagsBar, Pagination ,ModuleTransition},
   created () {
+    if (this.$route.query.p) {
+      this.currentPage = Number(this.$route.query.p)
+    }
+    if (this.$route.query.loadPage){
+      this.loadPage = Number(this.$route.query.loadPage)
+    }
+
     this.total = this.$sortPosts.length
   },
   beforeMount () {
     this.isMQMobile = window.innerWidth < MOBILE_DESKTOP_BREAKPOINT ? true : false; // vupress在打包时不能在beforeCreate(),created()访问浏览器api（如window）
   },
   mounted () {
-    if (this.$route.query.p) {
-      this.currentPage = Number(this.$route.query.p)
-    }
     let osInfo = navigator.userAgent.toLowerCase();
 
     //apple的 ios 不支持 background-attachment: fixed

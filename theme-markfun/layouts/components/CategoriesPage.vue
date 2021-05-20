@@ -54,7 +54,7 @@ export default {
     }
   },
   components: { MainLayout, PostList, Pagination, CategoriesBar , ModuleTransition},
-  mounted () {
+  created() {
     const queryCategory = this.$route.query.category
     if (queryCategory) {
       this.category = queryCategory
@@ -65,7 +65,11 @@ export default {
     if (this.$route.query.p) {
       this.currentPage = Number(this.$route.query.p)
     }
-
+    if (this.$route.query.loadPage){
+      this.loadPage = Number(this.$route.query.loadPage)
+    }
+  },
+  mounted () {
     // 滚动条定位到当前分类（增强用户体验）
     const cateEl = document.querySelector('.categories')
     if (cateEl) {

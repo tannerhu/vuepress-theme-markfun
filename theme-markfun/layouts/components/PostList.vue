@@ -15,7 +15,7 @@
       >
         <div class="title-wrapper">
           <h2>
-            <router-link :to="item.path">{{item.title}}</router-link>
+            <router-link :to="item.path" @click.native="replaceState()">{{item.title}}</router-link>
           </h2>
           <div class="article-info">
             <a
@@ -114,6 +114,9 @@ export default {
   },
   mounted () {
     // this.postListOffsetTop = this.getElementToPageTop(this.$refs.postList) - 240
+    window.onpopstate = (event)=> {
+      window.scrollTo({ top: event.state.key })
+    };
   },
   watch: {
     currentPage () {
@@ -155,12 +158,44 @@ export default {
         posts = this.$sortPosts
       }
 
-      if (loadPage>1){
+      if (this.$route.query.loadPage&&this.sortPosts.length===0){
+        this.sortPosts = this.sortPosts.concat(posts.slice(0, this.$route.query.loadPage * perPage))
+      }else if(loadPage>1){
         this.sortPosts = this.sortPosts.concat(posts.slice((loadPage - 1) * perPage, loadPage * perPage))
       }else {
         this.sortPosts = posts.slice((currentPage - 1) * perPage, currentPage * perPage)
       }
     },
+    replaceState(){
+      let scrollBackLocation = document.documentElement.scrollTop || document.body.scrollTop
+      this.stateUrl = this.changeURLArg(document.URL,'loadPage',this.loadPage)
+      history.replaceState({key:scrollBackLocation} ,null,this.stateUrl)
+    },
+    changeURLArg(url, arg, arg_val) {
+      var pattern = arg + '=([^&]*)';
+      var replaceText = arg + '=' + arg_val;
+      if (url.match(pattern)) {
+        var retuenUrl = url;
+        var temp = '/(\&' + arg + '=)([^&]*)/gi';
+        if (eval(temp).test(retuenUrl)) {
+          retuenUrl = retuenUrl.replace(eval(temp), '&' + replaceText);
+        }
+        var temps = '/([\?])(' + arg + '=)([^&]*)/gi';
+        if (eval(temps).test(retuenUrl)) {
+          retuenUrl = retuenUrl.replace(eval(temps), '?' + replaceText);
+        }
+        return retuenUrl;
+      }
+      else {
+        // if (url.match('[\?]')) {
+        if (url.indexOf('?') > 0) {
+          return url + "&" + replaceText;
+        } else {
+          return url + "?" + replaceText;
+        }
+      }
+      return url + '\n' + arg + '\n' + arg_val;
+    }
     // getElementToPageTop(el) {
     //   if(el && el.parentElement) {
     //     return this.getElementToPageTop(el.parentElement) + el.offsetTop

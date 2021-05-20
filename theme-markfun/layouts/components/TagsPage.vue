@@ -55,7 +55,7 @@ export default {
     }
   },
   components: { MainLayout, PostList, Pagination, TagsBar , ModuleTransition},
-  mounted () {
+  created() {
     const queryTag = this.$route.query.tag
 
     if (queryTag) {
@@ -67,6 +67,11 @@ export default {
     if (this.$route.query.p) {
       this.currentPage = Number(this.$route.query.p)
     }
+    if (this.$route.query.loadPage){
+      this.loadPage = Number(this.$route.query.loadPage)
+    }
+  },
+  mounted () {
   },
   methods: {
     handlePagination (i) { // 分页
