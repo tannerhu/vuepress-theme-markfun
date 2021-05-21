@@ -115,7 +115,9 @@ export default {
   mounted () {
     // this.postListOffsetTop = this.getElementToPageTop(this.$refs.postList) - 240
     window.onpopstate = (event)=> {
-      window.scrollTo({ top: event.state.key })
+      if (event.state.key){
+        window.scrollTo({ top: event.state.key })
+      }
     };
   },
   watch: {
@@ -167,9 +169,11 @@ export default {
       }
     },
     replaceState(){
-      let scrollBackLocation = document.documentElement.scrollTop || document.body.scrollTop
-      this.stateUrl = this.changeURLArg(document.URL,'loadPage',this.loadPage)
-      history.replaceState({key:scrollBackLocation} ,null,this.stateUrl)
+      if (this.$themeConfig.postListMode === 'more'){
+        let scrollBackLocation = document.documentElement.scrollTop || document.body.scrollTop
+        this.stateUrl = this.changeURLArg(document.URL,'loadPage',this.loadPage)
+        history.replaceState({key:scrollBackLocation} ,null,this.stateUrl)
+      }
     },
     changeURLArg(url, arg, arg_val) {
       var pattern = arg + '=([^&]*)';

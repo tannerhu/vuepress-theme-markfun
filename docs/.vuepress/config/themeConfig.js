@@ -51,7 +51,7 @@ module.exports = {
   },
   blogger: {
     // 博主信息，显示在首页侧边栏
-    avatar: 'http://image.haxbk.com/blog/604052.jpg',
+    avatar: 'https://image.haxbk.com/blog/604052.jpg',
     name: 'Tanner Hu',
     slogan: '一位IT从业者',
   },

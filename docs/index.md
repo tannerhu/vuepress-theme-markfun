@@ -6,9 +6,9 @@ tagline: 夜深随记，本站测试中，目前内容全部源自Evan Xu
 # actionText: 立刻进入 →
 # actionLink: /web/
 bannerBg: [
-     'http://image.haxbk.com/blog/banner2.jpg',
-     'http://image.haxbk.com/blog/banner3.jpg',
-     'http://image.haxbk.com/blog/banner1.jpg'
+     'https://image.haxbk.com/blog/banner2.jpg',
+     'https://image.haxbk.com/blog/banner3.jpg',
+     'https://image.haxbk.com/blog/banner1.jpg'
      ]
 #  bannerBg：'单图地址' | ['图一','图二','图三']  提示：如发现文本颜色不适应你的背景时可以到palette.styl修改$bannerTextColor变量
 # 文章列表显示方式: detailed 默认，显示详细版文章列表（包括作者、分类、标签、摘要、分页等）| simple => 显示简约版文章列表（仅标题和日期）| none 不显示文章列表

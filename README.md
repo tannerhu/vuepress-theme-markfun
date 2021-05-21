@@ -1,10 +1,18 @@
-# vuepress-theme-markfun
+<p align="center"><a href="https://haxbk.com/" target="_blank" rel="noopener noreferrer"><img width="180" src="https://image.haxbk.com/blog/MarkFun.png" alt="logo"></a></p>
+
+<h2 align="center">vuepress-theme-markfun</h2>
+## Introduce
 
 vuepress-theme-markfun for vuepress
 
 一个基于VuePress的博客主题简单 精致 有趣
 
-## 🌱vuepress-theme-markfun1.x master 分支 [点击切换分支](https://github.com/tannerhu/vuepress-theme-markfun/tree/master)
+Demo： [Tanner's blog](https://haxbk.com/)
+
+
+## Quick start
+
+🌱vuepress-theme-markfun1.x master 分支 [点击切换分支](https://github.com/tannerhu/vuepress-theme-markfun/tree/master)
 
 ```bash
 # 克隆项目
@@ -17,7 +25,7 @@ cd theme-markfun && npm i
 cd ../ && npm run dev
 ```
 
-## 鸣谢
+## Thanks
 
 | Project                                                          |
 | ---------------------------------------------------------------- |
