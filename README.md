@@ -1,6 +1,7 @@
 <p align="center"><a href="https://haxbk.com/" target="_blank" rel="noopener noreferrer"><img width="180" src="https://image.haxbk.com/blog/MarkFun.png" alt="logo"></a></p>
 
 <h2 align="center">vuepress-theme-markfun</h2>
+
 ## Introduce
 
 vuepress-theme-markfun for vuepress
