@@ -2,7 +2,7 @@
 home: true
 # heroImage: /img/web.png
 heroText: Tanner's blog
-tagline: 夜深随记，本站测试中，目前内容全部源自Evan Xu
+tagline: 夜深随记，本站测试中
 # actionText: 立刻进入 →
 # actionLink: /web/
 bannerBg: [

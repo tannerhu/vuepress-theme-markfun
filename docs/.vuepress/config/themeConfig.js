@@ -80,6 +80,6 @@ module.exports = {
     // 页脚信息
     createYear: 2021, // 博客创建年份
     copyrightInfo:
-      'Tanner Hu | <a href="https://github.com/tannerhu/vuepress-theme-markfun/LICENSE" target="_blank">Apache License-2.0</a>', // 博客版权信息，支持a标签
+      'Tanner Hu | <a href="https://github.com/tannerhu/vuepress-theme-markfun/blob/master/LICENSE" target="_blank">Apache License-2.0</a>', // 博客版权信息，支持a标签
   },
 }
