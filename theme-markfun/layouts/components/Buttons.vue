@@ -28,7 +28,11 @@
 
     <div
       title="去评论"
-      class="button blur go-to-comment iconfont icon-pinglun"
+      :class="`button blur go-to-comment iconfont icon-pinglun ${toCommentClass}`"
+      @mouseenter="toCommentFlag = true"
+      @mouseleave="toCommentFlag = false"
+      @touchstart="toCommentFlag = false"
+      @touchend="toCommentFlag = true"
       v-show="showCommentBut"
       @click="scrollToComment"
     />
@@ -61,6 +65,7 @@ export default {
       bounceInFlag: false,
       topGoFlag: true,
       backFlag: true,
+      toCommentFlag: true,
       scrollBackLocation: null,
       _scrollTimer: null,
       _textareaEl: null,
@@ -118,6 +123,13 @@ export default {
     themeButtonClass (){
       if (this.bounceInFlag){
         return 'deform'
+      }else {
+        return ''
+      }
+    },
+    toCommentClass (){
+      if (this.toCommentFlag){
+        return 'deform-comment'
       }else {
         return ''
       }
@@ -256,6 +268,7 @@ export default {
   .back
     right 5.2rem
     position fixed
+    bottom 2.5rem
     @media (max-width $MQNarrow)
       right 4.2rem
 
@@ -288,6 +301,20 @@ export default {
   }
   90% {
     transform: translate3d(0,0,0);
+  }
+  100% {
+    transform:scale3d(1, 1, 1);
+  }
+
+.deform-comment
+  animation to-comment 0.4s  ease-in-out 0.2s 1 alternate forwards
+
+@keyframes to-comment
+  0% {
+    transform: scale3d(0.5, 0.5, 1);
+  }
+  60% {
+    transform: scale3d(1.3, 1.3, 1);
   }
   100% {
     transform:scale3d(1, 1, 1);
