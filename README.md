@@ -26,6 +26,74 @@ cd theme-markfun && npm i
 cd ../ && npm run dev
 ```
 
+## Directory structure
+
+```
+.
+├── docs
+│   ├── 01.**    //首个自定义导航
+│   │   └── 01.**.md
+│   ├── 02.**    //第二个自定义导航（03.类推）
+│   │   └── 01.**.md
+│   ├── index.md
+│   ├── _posts   //随笔文章目录
+│   │   └── 文章归类名
+│   │       └── **.md
+│   └── .vuepress
+│       ├── config
+│       │   ├── head.js        //<head>标签设置
+│       │   ├── plugins.js
+│       │   ├── themeConfig
+│       │   │    └── nav.js
+│       │   └── themeConfig.js  //主题配置
+│       ├── config.js           //vuepress配置入口
+│       ├── enhanceApp.js
+│       ├── public
+│       │   └── img             //静态图片图标资源
+│       │       ├── favicon.ico
+│       │       └──**.png
+│       └── styles
+│           ├── index.styl
+│           └── palette.styl   //主题布局颜色配置
+├── LICENSE
+├── package.json
+├── README.md
+├── theme-markfun  //主题根目录
+│   ├── components //公用组件
+│   │   ├── **.vue
+│   ├── enhanceApp.js
+│   ├── index.js
+│   ├── layouts    //主布局组件
+│   │   ├── **.vue
+│   │   └── components
+│   │       └── **.vue
+│   ├── mixins
+│   │   └── **.js
+│   ├── node_utils
+│   │   ├── getSidebarData.js
+│   │   ├── handlePage.js
+│   │   ├── modules
+│   │   │   ├── fn.js
+│   │   │   └── readFileList.js
+│   │   └── setFrontmatter.js
+│   ├── noopModule.js
+│   ├── package.json
+│   ├── styles
+│   │   └── **.styl
+│   ├── templates
+│   │   └── **.html
+│   └── util
+│       └── **.js
+└── utils        //工具包
+    ├── baiduPush.js
+    ├── config.yml
+    ├── editFrontmatter.js
+    └── modules
+        └── **.js
+```
+
+
+
 ## Thanks
 
 | Project                                                          |
