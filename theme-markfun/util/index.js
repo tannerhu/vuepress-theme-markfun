@@ -289,3 +289,11 @@ export function encodeUrl (str) {
   str = str?.replace(/ |((?=[\x21-\x7e]+)[^A-Za-z0-9])/g, '-')
   return str
 }
+
+// 修复ISO8601时间格式为普通时间格式
+export function repairUTCDate (date) {
+  if (!(date instanceof Date)) {
+    date = new Date(date)
+  }
+  return `${date.getUTCFullYear()}-${zero(date.getUTCMonth() + 1)}-${zero(date.getUTCDate())} ${zero(date.getUTCHours())}:${zero(date.getUTCMinutes())}:${zero(date.getUTCSeconds())}`;
+}

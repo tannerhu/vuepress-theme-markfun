@@ -58,16 +58,16 @@ cd ../ && npm run dev
 ├── LICENSE
 ├── package.json
 ├── README.md
-├── theme-markfun  //主题根目录
-│   ├── components //公用组件
+├── theme-markfun      //主题根目录
+│   ├── components     //公用组件
 │   │   ├── **.vue
-│   ├── enhanceApp.js
+│   ├── enhanceApp.js  //应用级别的配置
 │   ├── index.js
-│   ├── layouts    //主布局组件
+│   ├── layouts        //主布局组件
 │   │   ├── **.vue
 │   │   └── components
 │   │       └── **.vue
-│   ├── mixins
+│   ├── mixins         //混入对象
 │   │   └── **.js
 │   ├── node_utils
 │   │   ├── getSidebarData.js
@@ -78,13 +78,13 @@ cd ../ && npm run dev
 │   │   └── setFrontmatter.js
 │   ├── noopModule.js
 │   ├── package.json
-│   ├── styles
+│   ├── styles         //主题默认样式
 │   │   └── **.styl
 │   ├── templates
 │   │   └── **.html
 │   └── util
 │       └── **.js
-└── utils        //工具包
+└── utils              //工具包
     ├── baiduPush.js
     ├── config.yml
     ├── editFrontmatter.js
