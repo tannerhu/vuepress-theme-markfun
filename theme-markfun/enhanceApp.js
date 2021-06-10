@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import CodeBlock from "@theme/components/CodeBlock.vue"
 import CodeGroup from "@theme/components/CodeGroup.vue"
+import { repairUTCDate } from './util/index'
 // Register the Vue global component
 Vue.component(CodeBlock)
 Vue.component(CodeGroup)
@@ -31,17 +32,4 @@ export default ({
 
   // 将对文章数据的处理结果混入Vue实例
   Vue.mixin(postsMixin)
-}
-
-
-// 修复ISO8601时间格式为普通时间格式
-function repairUTCDate (date) {
-  if (!(date instanceof Date)) {
-    date = new Date(date)
-  }
-  return `${date.getUTCFullYear()}-${zero(date.getUTCMonth() + 1)}-${zero(date.getUTCDate())} ${zero(date.getUTCHours())}:${zero(date.getUTCMinutes())}:${zero(date.getUTCSeconds())}`;
-}
-// 小于10补0
-function zero (d) {
-  return d.toString().padStart(2, '0')
 }
