@@ -10,6 +10,7 @@
   "author": "tannnerhu",
   "license": "Apache-2.0",
   "devDependencies": {
+    "@vuepress-reco/core": "^1.6.2",
     "vue-class-component": "^7.2.6",
     "dayjs": "^1.9.7",
     "inquirer": "^7.1.0",

@@ -2,7 +2,7 @@
 home: true
 # heroImage: /img/web.png
 heroText: Tanner's blog
-tagline: 夜深随记，本站测试中
+tagline: 夜深随记，留些散字，若有所思
 # actionText: 立刻进入 →
 # actionLink: /web/
 bannerBg: [
